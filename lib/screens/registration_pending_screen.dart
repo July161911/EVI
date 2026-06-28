@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/screens/login_screen.dart';
-import 'package:material_query_app/theme/app_theme.dart';
-import 'package:material_query_app/theme/theme_aware.dart';
-import 'package:material_query_app/widgets/app_page_shell.dart';
-import 'package:material_query_app/widgets/common_widgets.dart';
+import 'package:evi/screens/login_screen.dart';
+import 'package:evi/theme/app_theme.dart';
+import 'package:evi/theme/theme_aware.dart';
+import 'package:evi/widgets/app_page_shell.dart';
+import 'package:evi/widgets/common_widgets.dart';
 
 class RegistrationPendingScreen extends StatelessWidget {
   const RegistrationPendingScreen({

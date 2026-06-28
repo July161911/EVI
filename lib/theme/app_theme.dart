@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/theme/theme_controller.dart';
+import 'package:evi/theme/theme_controller.dart';
 
 class AppPalette {
   const AppPalette({

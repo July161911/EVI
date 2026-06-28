@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:material_query_app/config/app_config.dart';
+import 'package:evi/config/app_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class VersionInfo {

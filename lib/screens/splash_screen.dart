@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/constants/app_assets.dart';
-import 'package:material_query_app/screens/login_screen.dart';
-import 'package:material_query_app/theme/app_theme.dart';
-import 'package:material_query_app/theme/theme_aware.dart';
-import 'package:material_query_app/widgets/app_page_shell.dart';
+import 'package:evi/constants/app_assets.dart';
+import 'package:evi/screens/login_screen.dart';
+import 'package:evi/theme/app_theme.dart';
+import 'package:evi/theme/theme_aware.dart';
+import 'package:evi/widgets/app_page_shell.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

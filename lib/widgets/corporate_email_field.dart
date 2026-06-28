@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/config/auth_config.dart';
-import 'package:material_query_app/theme/app_theme.dart';
-import 'package:material_query_app/widgets/common_widgets.dart';
+import 'package:evi/config/auth_config.dart';
+import 'package:evi/theme/app_theme.dart';
+import 'package:evi/widgets/common_widgets.dart';
 
 class CorporateEmailField extends StatelessWidget {
   const CorporateEmailField({

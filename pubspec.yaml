@@ -1,5 +1,5 @@
-name: material_query_app
-description: Material query app with Bluetooth support for iOS and Android.
+name: evi
+description: EVI app with Bluetooth support for iOS and Android.
 publish_to: 'none'
 
 version: 4.0.0+1

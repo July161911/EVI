@@ -1,4 +1,4 @@
-package com.ssme.material_query_app
+package com.ssme.evi
 
 import io.flutter.embedding.android.FlutterActivity
 

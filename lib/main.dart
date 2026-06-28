@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/app_navigator.dart';
-import 'package:material_query_app/screens/splash_screen.dart';
-import 'package:material_query_app/theme/app_theme.dart';
-import 'package:material_query_app/theme/theme_controller.dart';
+import 'package:evi/app_navigator.dart';
+import 'package:evi/screens/splash_screen.dart';
+import 'package:evi/theme/app_theme.dart';
+import 'package:evi/theme/theme_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ThemeController.instance.load();
-  runApp(const MaterialQueryApp());
+  runApp(const EviApp());
 }
 
-class MaterialQueryApp extends StatelessWidget {
-  const MaterialQueryApp({super.key});
+class EviApp extends StatelessWidget {
+  const EviApp({super.key});
 
   @override
   Widget build(BuildContext context) {

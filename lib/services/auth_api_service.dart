@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:material_query_app/config/auth_config.dart';
-import 'package:material_query_app/models/auth_exception.dart';
+import 'package:evi/config/auth_config.dart';
+import 'package:evi/models/auth_exception.dart';
 
 class RegisterResponse {
   const RegisterResponse({

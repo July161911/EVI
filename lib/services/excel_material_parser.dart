@@ -1,5 +1,5 @@
 import 'package:excel/excel.dart';
-import 'package:material_query_app/models/material_item.dart';
+import 'package:evi/models/material_item.dart';
 
 class ExcelMaterialParser {
   ExcelMaterialParser._();

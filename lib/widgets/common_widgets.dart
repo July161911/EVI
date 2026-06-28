@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/theme/app_theme.dart';
+import 'package:evi/theme/app_theme.dart';
 
 class BrandIconBadge extends StatelessWidget {
   const BrandIconBadge({

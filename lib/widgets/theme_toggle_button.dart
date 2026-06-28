@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/theme/app_theme.dart';
-import 'package:material_query_app/theme/theme_controller.dart';
+import 'package:evi/theme/app_theme.dart';
+import 'package:evi/theme/theme_controller.dart';
 
 class ThemeToggleButton extends StatelessWidget {
   const ThemeToggleButton({super.key});

@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
-import 'package:material_query_app/config/material_config.dart';
-import 'package:material_query_app/models/material_item.dart';
-import 'package:material_query_app/services/excel_material_parser.dart';
+import 'package:evi/config/material_config.dart';
+import 'package:evi/models/material_item.dart';
+import 'package:evi/services/excel_material_parser.dart';
 
 class MaterialService {
   MaterialService._();

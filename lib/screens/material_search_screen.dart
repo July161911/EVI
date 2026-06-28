@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:material_query_app/models/material_item.dart';
-import 'package:material_query_app/services/bluetooth_service.dart';
-import 'package:material_query_app/services/material_service.dart';
-import 'package:material_query_app/theme/app_theme.dart';
-import 'package:material_query_app/theme/theme_aware.dart';
-import 'package:material_query_app/widgets/app_page_shell.dart';
-import 'package:material_query_app/widgets/common_widgets.dart';
+import 'package:evi/models/material_item.dart';
+import 'package:evi/services/bluetooth_service.dart';
+import 'package:evi/services/material_service.dart';
+import 'package:evi/theme/app_theme.dart';
+import 'package:evi/theme/theme_aware.dart';
+import 'package:evi/widgets/app_page_shell.dart';
+import 'package:evi/widgets/common_widgets.dart';
 
-class MaterialQueryScreen extends StatefulWidget {
-  const MaterialQueryScreen({super.key});
+class MaterialSearchScreen extends StatefulWidget {
+  const MaterialSearchScreen({super.key});
 
   @override
-  State<MaterialQueryScreen> createState() => _MaterialQueryScreenState();
+  State<MaterialSearchScreen> createState() => _MaterialSearchScreenState();
 }
 
-class _MaterialQueryScreenState extends State<MaterialQueryScreen>
+class _MaterialSearchScreenState extends State<MaterialSearchScreen>
     with ThemeAwareState {
   final _bluetooth = ShelfBluetoothService();
   final _queryController = TextEditingController();

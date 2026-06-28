@@ -1,6 +1,6 @@
-import 'package:material_query_app/config/auth_config.dart';
-import 'package:material_query_app/models/auth_exception.dart';
-import 'package:material_query_app/services/auth_api_service.dart';
+import 'package:evi/config/auth_config.dart';
+import 'package:evi/models/auth_exception.dart';
+import 'package:evi/services/auth_api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationRequest {

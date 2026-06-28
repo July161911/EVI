@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/screens/material_query_screen.dart';
-import 'package:material_query_app/screens/reserved_screen.dart';
-import 'package:material_query_app/theme/app_theme.dart';
-import 'package:material_query_app/theme/theme_aware.dart';
-import 'package:material_query_app/widgets/app_page_shell.dart';
-import 'package:material_query_app/widgets/common_widgets.dart';
+import 'package:evi/screens/material_search_screen.dart';
+import 'package:evi/screens/reserved_screen.dart';
+import 'package:evi/theme/app_theme.dart';
+import 'package:evi/theme/theme_aware.dart';
+import 'package:evi/widgets/app_page_shell.dart';
+import 'package:evi/widgets/common_widgets.dart';
 
 class AppCenterScreen extends StatelessWidget {
   const AppCenterScreen({super.key});
@@ -32,7 +32,7 @@ class AppCenterScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(
                       CupertinoPageRoute<void>(
-                        builder: (_) => const MaterialQueryScreen(),
+                        builder: (_) => const MaterialSearchScreen(),
                       ),
                     );
                   },

@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:material_query_app/config/app_config.dart';
-import 'package:material_query_app/models/auth_exception.dart';
-import 'package:material_query_app/screens/app_center_screen.dart';
-import 'package:material_query_app/screens/registration_pending_screen.dart';
-import 'package:material_query_app/services/auth_service.dart';
-import 'package:material_query_app/services/version_service.dart';
-import 'package:material_query_app/theme/app_theme.dart';
-import 'package:material_query_app/theme/theme_aware.dart';
-import 'package:material_query_app/widgets/app_page_shell.dart';
-import 'package:material_query_app/widgets/common_widgets.dart';
-import 'package:material_query_app/widgets/corporate_email_field.dart';
-import 'package:material_query_app/widgets/theme_toggle_button.dart';
+import 'package:evi/config/app_config.dart';
+import 'package:evi/models/auth_exception.dart';
+import 'package:evi/screens/app_center_screen.dart';
+import 'package:evi/screens/registration_pending_screen.dart';
+import 'package:evi/services/auth_service.dart';
+import 'package:evi/services/version_service.dart';
+import 'package:evi/theme/app_theme.dart';
+import 'package:evi/theme/theme_aware.dart';
+import 'package:evi/widgets/app_page_shell.dart';
+import 'package:evi/widgets/common_widgets.dart';
+import 'package:evi/widgets/corporate_email_field.dart';
+import 'package:evi/widgets/theme_toggle_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {

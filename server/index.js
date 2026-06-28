@@ -178,12 +178,7 @@ app.get('/activate', (req, res) => {
   if (!token) {
     return res
       .status(400)
-      .send(
-        activationPage(
-          false,
-          '激活链接无效，缺少令牌。请返回邮箱重新打开激活链接。',
-        ),
-      );
+      .send('激活链接无效或已过期。请重新注册或联系管理员。');
   }
 
   const store = loadUsers();
@@ -191,21 +186,11 @@ app.get('/activate', (req, res) => {
   if (!user) {
     return res
       .status(404)
-      .send(
-        activationPage(
-          false,
-          '激活链接无效或已过期。请重新注册或联系管理员。',
-        ),
-      );
+      .send('激活链接无效或已过期。请重新注册或联系管理员。');
   }
 
   if (user.confirmed) {
-    return res.send(
-      activationPage(
-        true,
-        '您的账号已经激活，请返回 EVI 应用登录。',
-      ),
-    );
+    return res.send('您的账号已经激活，请返回 EVI 应用登录。');
   }
 
   user.confirmed = true;
@@ -213,12 +198,7 @@ app.get('/activate', (req, res) => {
   user.activatedAt = new Date().toISOString();
   saveUsers(store);
 
-  return res.send(
-    activationPage(
-      true,
-      '账号激活成功！请返回 EVI 应用，使用您的用户名和密码登录。',
-    ),
-  );
+  return res.send('账号激活成功！请返回 EVI 应用，使用您的用户名和密码登录。');
 });
 
 app.post('/auth/login', async (req, res) => {

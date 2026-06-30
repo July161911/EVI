@@ -56,6 +56,8 @@ class ExcelMaterialParser {
       final id = _cellAt(row, resolvedIdIndex);
       final name = _cellAt(row, resolvedNameIndex);
       final location = _cellAt(row, resolvedLocationIndex);
+      final deviceId = _cellAt(row, 3);
+      final led2 = _cellAt(row, 4);
 
       if (id.isEmpty && name.isEmpty && location.isEmpty) {
         continue;
@@ -66,6 +68,8 @@ class ExcelMaterialParser {
           id: id,
           name: name,
           location: location,
+          deviceId: deviceId,
+          led2: led2,
         ),
       );
     }

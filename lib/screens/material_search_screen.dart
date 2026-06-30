@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:evi/models/material_item.dart';
 import 'package:evi/services/bluetooth_service.dart';
+import 'package:evi/services/led_bluetooth_command_service.dart';
 import 'package:evi/services/material_service.dart';
 import 'package:evi/theme/app_theme.dart';
 import 'package:evi/theme/theme_aware.dart';
@@ -24,6 +25,7 @@ class _MaterialSearchScreenState extends State<MaterialSearchScreen>
   String? _sendStatus;
   bool _isLoadingCatalog = true;
   bool _hasSearched = false;
+  bool _isSendingCommand = false;
   String? _catalogError;
 
   @override
@@ -69,8 +71,8 @@ class _MaterialSearchScreenState extends State<MaterialSearchScreen>
     }
   }
 
-  void _runQuery() {
-    if (!MaterialService.instance.isLoaded) {
+  Future<void> _runQuery() async {
+    if (!MaterialService.instance.isLoaded || _isSendingCommand) {
       return;
     }
 
@@ -91,30 +93,92 @@ class _MaterialSearchScreenState extends State<MaterialSearchScreen>
       _selectedItem = null;
       _sendStatus = null;
     });
+
+    await _sendBluetoothCommands();
   }
 
-  Future<void> _completeQuery(MaterialItem item) async {
-    setState(() {
-      _selectedItem = item;
-      _sendStatus = null;
-    });
-
-    if (!_bluetooth.isConnected) {
+  Future<void> _sendBluetoothCommands() async {
+    if (_results.isEmpty) {
       setState(() {
-        _sendStatus = 'Query complete. Connect Bluetooth to send payload.';
+        _sendStatus = '查询完成，无匹配结果，未发送蓝牙指令。';
       });
       return;
     }
 
-    final sent = await _bluetooth.sendString(item.bluetoothPayload);
-    if (!mounted) {
+    if (!_bluetooth.isConnected) {
+      setState(() {
+        _sendStatus = '查询完成。请连接蓝牙后重新精确查询以发送指令。';
+      });
       return;
     }
+
+    if (_isSendingCommand) {
+      return;
+    }
+
+    final item = _results.first;
+    final ledCommands = LedBluetoothCommandService.instance;
+    ledCommands.prepareFromMaterial(item);
+    final led0 = ledCommands.buildLed0();
+    final led0ByteSegments = ledCommands.splitLed0IntoByteSegments(led0);
+
     setState(() {
-      _sendStatus = sent
-          ? 'Sent "${item.bluetoothPayload}" to Bluetooth module.'
-          : 'Query complete, but Bluetooth send failed.';
+      _isSendingCommand = true;
+      _sendStatus = '正在发送 out1–out8 和 LED0 分段…';
     });
+
+    try {
+      final outsSent = await _bluetooth.sendHexSequence(
+        LedBluetoothCommandService.outCommands,
+        interval: const Duration(milliseconds: 200),
+      );
+      if (!mounted) {
+        return;
+      }
+      if (!outsSent) {
+        setState(() {
+          _sendStatus = '发送 out1–out8 失败: ${_bluetooth.statusMessage}';
+        });
+        return;
+      }
+
+      setState(() {
+        _sendStatus = 'out1–out8 已发送，正在发送 LED0 三段…';
+      });
+
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+
+      final segmentsSent = await _bluetooth.sendBytesSequence(
+        led0ByteSegments,
+        interval: const Duration(milliseconds: 25),
+        delayBeforeFirst: false,
+      );
+      if (!mounted) {
+        return;
+      }
+
+      final segmentSizes =
+          led0ByteSegments.map((segment) => segment.length).join('/');
+      setState(() {
+        _sendStatus = segmentsSent
+            ? '已发送 out1–out8 及 LED0 三段 ($segmentSizes bytes)。'
+                ' DeviceID=${ledCommands.deviceId}, LED2=${ledCommands.led2}。'
+            : '发送 LED0 分段失败: ${_bluetooth.statusMessage}';
+      });
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _sendStatus = '蓝牙发送异常: $error';
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSendingCommand = false;
+        });
+      }
+    }
   }
 
   Future<void> _showDevicePicker() async {
@@ -230,7 +294,10 @@ class _MaterialSearchScreenState extends State<MaterialSearchScreen>
                   const SizedBox(height: 12),
                   AppPrimaryButton(
                     label: '精确查询',
-                    onPressed: _isLoadingCatalog ? null : _runQuery,
+                    isLoading: _isSendingCommand,
+                    onPressed: _isLoadingCatalog || _isSendingCommand
+                        ? null
+                        : _runQuery,
                   ),
                 ],
               ),
@@ -282,7 +349,6 @@ class _MaterialSearchScreenState extends State<MaterialSearchScreen>
                   child: _MaterialResultCard(
                     item: item,
                     isSelected: _selectedItem?.id == item.id,
-                    onComplete: () => _completeQuery(item),
                   ),
                 ),
               ),
@@ -294,7 +360,7 @@ class _MaterialSearchScreenState extends State<MaterialSearchScreen>
                     style: TextStyle(
                       inherit: false,
                       fontSize: 17,
-                      color: _sendStatus!.contains('Sent')
+                      color: _sendStatus!.contains('已发送')
                           ? AppColors.accentDark
                           : AppColors.primary,
                     ),
@@ -313,12 +379,10 @@ class _MaterialResultCard extends StatelessWidget {
   const _MaterialResultCard({
     required this.item,
     required this.isSelected,
-    required this.onComplete,
   });
 
   final MaterialItem item;
   final bool isSelected;
-  final VoidCallback onComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -332,6 +396,14 @@ class _MaterialResultCard extends StatelessWidget {
           Text('物料号: ${item.id}', style: AppTheme.secondary),
           const SizedBox(height: 4),
           Text('物料位置: ${item.location}', style: AppTheme.success),
+          if (item.deviceId.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text('DeviceID: ${item.deviceId}', style: AppTheme.secondary),
+          ],
+          if (item.led2.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text('LED2: ${item.led2}', style: AppTheme.secondary),
+          ],
           const SizedBox(height: 4),
           SizedBox(width: double.infinity),
         ],
